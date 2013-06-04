@@ -5,4 +5,9 @@
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
     #import <ADNKit/ADNKit.h>
+    #ifndef ADN_ACCESS_TOKEN
+        #error you need an access token, go to http://dev-lite.jonathonduerig.com
+        #define ADN_ACCESS_TOKEN @""
+    #endif
+
 #endif

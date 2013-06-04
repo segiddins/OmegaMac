@@ -11,12 +11,6 @@
 #import <ITSidebar/ITSidebar.h>
 #import <ITSidebar/ITSidebarItemCell.h>
 
-
-#ifndef ADN_ACCESS_TOKEN
-#error you need an access token, go to http://dev-lite.jonathonduerig.com
-#define ADN_ACCESS_TOKEN @""
-#endif
-
 @interface SEGAppDelegate () <NSTableViewDelegate, NSTableViewDataSource, NSTextFieldDelegate>
 
 @property (assign) IBOutlet ITSidebar *sidebar;
