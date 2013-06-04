@@ -1,0 +1,16 @@
+PODS:
+  - ADNKit (1.2):
+    - AFNetworking (~> 1.2.0)
+  - AFNetworking (1.2.1)
+  - ITSidebar (0.0.1)
+
+DEPENDENCIES:
+  - ADNKit
+  - ITSidebar (~> 0.0.1)
+
+SPEC CHECKSUMS:
+  ADNKit: 9c5a889002c54e704bcb6fa57467cc2f5de588dc
+  AFNetworking: a44069e3c9c89867544f6639482f155c7e5f9b41
+  ITSidebar: 05bb8141f9b07685ced855183ccec1997d4b18e5
+
+COCOAPODS: 0.20.2

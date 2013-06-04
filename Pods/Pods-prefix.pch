@@ -1,0 +1,39 @@
+#ifdef __OBJC__
+#import <Cocoa/Cocoa.h>
+#endif
+
+#import "Pods-environment.h"
+#ifdef __OBJC__
+	#import <Foundation/Foundation.h>
+
+	#if __IPHONE_OS_VERSION_MIN_REQUIRED
+		#import <MobileCoreServices/MobileCoreServices.h>
+	#endif
+
+	#import <SystemConfiguration/SystemConfiguration.h>
+	#import "AFNetworking.h"
+	#import "ANKResource.h"
+	#import "ANKAnnotationReplacement.h"
+	#import "ANKClient.h"
+	#import "ANKClient+ANKHandlerBlocks.h"
+	#import "NSArray+ANKAdditions.h"
+	#import "NSDictionary+ANKAdditions.h"
+#endif
+
+
+
+#import <Availability.h>
+
+//#define _AFNETWORKING_PIN_SSL_CERTIFICATES_
+
+#if __IPHONE_OS_VERSION_MIN_REQUIRED
+  #import <SystemConfiguration/SystemConfiguration.h>
+  #import <MobileCoreServices/MobileCoreServices.h>
+  #import <Security/Security.h>
+#else
+  #import <SystemConfiguration/SystemConfiguration.h>
+  #import <CoreServices/CoreServices.h>
+  #import <Security/Security.h>
+#endif
+
+
