@@ -31,6 +31,9 @@
     [[ANKClient sharedClient] setAccessToken:ADN_ACCESS_TOKEN];
     [[ANKClient sharedClient] fetchCurrentUserSubscribedChannelsWithCompletion:^(id responseObject, ANKAPIResponseMeta *meta, NSError *error) {
         NSLog(@"responseObject: %@\nmeta: %@\nerror: %@", responseObject, meta, error);
+        if (error) {
+            return;
+        }
 
         self.channels = responseObject;
 
@@ -51,6 +54,9 @@
 - (IBAction)sidebarChanged:(ITSidebar *)sender {
     ANKChannel *channel = self.channels[sender.selectedIndex];
     [[ANKClient sharedClient] fetchMessagesInChannel:channel completion:^(id responseObject, ANKAPIResponseMeta *meta, NSError *error) {
+        if (error) {
+            return;
+        }
         NSLog(@"responseObject: %@\nmeta: %@\nerror: %@", responseObject, meta, error);
         self.messages = responseObject;
         ANKMessage *lastMessage = [self.messages lastObject];

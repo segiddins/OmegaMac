@@ -16,3 +16,5 @@ profile
 *.moved-aside
 DerivedData
 .idea/
+
+/Omega.xcworkspace/xcuserdata/segiddins.xcuserdatad/UserInterfaceState.xcuserstate
