@@ -12,6 +12,7 @@
 #import <ITSidebar/ITSidebarItemCell.h>
 
 @interface SEGAppDelegate () <NSTableViewDelegate, NSTableViewDataSource, NSTextFieldDelegate>
+@property (weak) IBOutlet NSMenuItem *refreshMenu;
 
 @property (assign) IBOutlet ITSidebar *sidebar;
 @property (assign) IBOutlet NSTextField *label;
@@ -29,24 +30,8 @@
 {
     // Insert code here to initialize your application
     [[ANKClient sharedClient] setAccessToken:ADN_ACCESS_TOKEN];
-    [[ANKClient sharedClient] fetchCurrentUserSubscribedChannelsWithCompletion:^(id responseObject, ANKAPIResponseMeta *meta, NSError *error) {
-        NSLog(@"responseObject: %@\nmeta: %@\nerror: %@", responseObject, meta, error);
-        if (error) {
-            return;
-        }
-
-        self.channels = responseObject;
-
-        [self.sidebar setTarget:self];
-        [self.sidebar setAction:@selector(sidebarChanged:)];
-        CGSize size = self.sidebar.cellSize;
-        size.width *= .9;
-        size.height *= .9;
-        [self.channels enumerateObjectsUsingBlock:^(ANKChannel *channel, NSUInteger idx, BOOL *stop) {
-            ITSidebarItemCell *cell = [self.sidebar addItemWithImage:[[NSImage alloc] initWithContentsOfURL:[channel.latestMessage.user.avatarImage URLForSize: size]] alternateImage:nil];
-            [cell setTag:idx + 1];
-        }];
-    }];
+    [self.refreshMenu setEnabled:YES];
+    [self refreshChannels:nil];
 
     [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
 }
@@ -91,6 +76,31 @@
     }
 
     return returnValue;
+}
+- (IBAction)refreshChannels:(id)sender {
+    [self.refreshMenu setEnabled:NO];
+    [[ANKClient sharedClient] fetchCurrentUserSubscribedChannelsWithCompletion:^(id responseObject, ANKAPIResponseMeta *meta, NSError *error) {
+        [self.refreshMenu setEnabled:YES];
+        NSLog(@"responseObject: %@\nmeta: %@\nerror: %@", responseObject, meta, error);
+        if (error) {
+            return;
+        }
+        
+        self.channels = responseObject;
+        
+        [self.sidebar setTarget:self];
+        [self.sidebar setAction:@selector(sidebarChanged:)];
+        while (self.sidebar.matrix.numberOfRows > 0) {
+            [self.sidebar removeRow:0];
+        }
+        CGSize size = self.sidebar.cellSize;
+        size.width *= .9;
+        size.height *= .9;
+        [self.channels enumerateObjectsUsingBlock:^(ANKChannel *channel, NSUInteger idx, BOOL *stop) {
+            ITSidebarItemCell *cell = [self.sidebar addItemWithImage:[[NSImage alloc] initWithContentsOfURL:[channel.latestMessage.user.avatarImage URLForSize: size]] alternateImage:nil];
+            [cell setTag:idx + 1];
+        }];
+    }];
 }
 
 -(void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
